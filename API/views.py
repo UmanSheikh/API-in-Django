@@ -13,12 +13,17 @@ def results(request):
             model = pickle.load(f)
         
         data = JSONParser().parse(request)
+        if(data["year"] is not int):
+            return JsonResponse({
+                'prediction': "Year must be Integer"
+                })
+
+        print(data["year"])
+
         prediction = model.predict([[data["year"]]])
-        print(data["dummy"])
 
     return JsonResponse({
-        'prediction': prediction[0],
-        'User': data["dummy"]
+        'prediction': prediction[0]
         })
 
 @csrf_exempt
